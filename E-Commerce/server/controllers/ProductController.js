@@ -1,6 +1,8 @@
 import { Auth0Provider } from "@bcwdev/auth0provider";
 import { productService } from "../services/ProductService";
+import { reviewService } from "../services/ReviewService";
 import BaseController from "../utils/BaseController";
+import { BadRequest } from "../utils/Errors";
 
 export class ProductController extends BaseController {
   constructor() {
@@ -9,7 +11,7 @@ export class ProductController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getAllProducts)
       .get('/:productId', this.getProductById)
-      .get('/:productId/reviews', this.getReviewsByProductId)
+      .get('/:productId/reviews', this.getProductsReviews)
   }
 
   async getAllProducts(req, res, next) {
@@ -31,9 +33,14 @@ export class ProductController extends BaseController {
     }
   }
 
-  async getReviewsByProductId(req, res, next) {
+  async getProductsReviews(req, res, next) {
     try {
-      const reviews = await
+      req.body.productId = req.params.productId
+      const foundProduct = await productService.getProductById(req.params.productId)
+      if (!foundProduct) {
+        throw new BadRequest('No Product Found')
+      }
+      const reviews = await reviewService.getReviewsByProductId(req.body)
       return res.send(reviews)
     } catch (error) {
       next(error)
