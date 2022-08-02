@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 import { AccountSchema } from '../models/Account'
+import { FollowSchema } from "../models/Follow";
+import { NotificationSchema } from "../models/Notification";
 import { OrderSchema } from "../models/Order";
 import { ProductSchema } from "../models/Product";
 import { ReviewSchema } from "../models/Review";
@@ -11,6 +13,8 @@ class DbContext {
   Product = mongoose.model('Product', ProductSchema)
   Review = mongoose.model('Review', ReviewSchema)
   Order = mongoose.model('Order', OrderSchema)
+  Notification = mongoose.model('Notification', NotificationSchema)
+  Follow = mongoose.model('Follow', FollowSchema)
 }
 
 export const dbContext = new DbContext()

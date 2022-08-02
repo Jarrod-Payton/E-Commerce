@@ -37,9 +37,6 @@ export class ProductController extends BaseController {
     try {
       req.body.productId = req.params.productId
       const foundProduct = await productService.getProductById(req.params.productId)
-      if (!foundProduct) {
-        throw new BadRequest('No Product Found')
-      }
       const reviews = await reviewService.getReviewsByProductId(req.body)
       return res.send(reviews)
     } catch (error) {

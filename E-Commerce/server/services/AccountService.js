@@ -1,4 +1,5 @@
 import { dbContext } from '../db/DbContext'
+import { BadRequest } from "../utils/Errors"
 
 // Private Methods
 
@@ -73,6 +74,24 @@ class AccountService {
       { runValidators: true, setDefaultsOnInsert: true, new: true }
     )
     return account
+  }
+
+  async getOtherAccount(accountId) {
+    const account = await this.checkIfAccountExists(accountId)
+    return account
+  }
+
+  async checkIfAccountExists(accountId) {
+    const account = await dbContext.Account.findById(accountId)
+    if (!account || account.deleted === true) {
+      throw new BadRequest('No Acccount')
+    }
+    return account
+  }
+
+  async deleteAccount(userId) {
+    await this.checkIfAccountExists(userId)
+    await dbContext.Account.findByIdAndUpdate(userId, {deleted: false})
   }
 }
 export const accountService = new AccountService()
