@@ -3,7 +3,7 @@ import { BadRequest, Forbidden } from '../utils/Errors'
 
 class ProductService {
   async getAllProducts(query = {}) {
-    const res = await dbContext.Account.find(query)
+    const res = await dbContext.Product.find(query)
     return res
   }
 
