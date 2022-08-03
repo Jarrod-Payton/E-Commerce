@@ -9,6 +9,15 @@ class OrderService {
     return orders
   }
 
+  async getAmountOfProductSold(productId) {
+    const orders = await dbContext.Order.find({productId: productId})
+    let quantity = 0
+    orders.forEach(order => {
+      quantity += order.quantity
+    })
+    return quantity
+  }
+
 }
 
 export const orderService = new OrderService()

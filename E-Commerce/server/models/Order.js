@@ -9,6 +9,7 @@ export const OrderSchema = new Schema (
     accountId: {type: Object, required: true},
     deliveryAddress: {type: String, required: true},
     deliveryStatus: {type: String, enum: ['Not Shipped', 'Shipped', 'Out for Delivery', 'Delivered']},
+    quantity: {type: Number, default: 1},
     received: {type: Boolean, required: true}
   },
   { timestamps: true, toJSON: { virtuals: true }}

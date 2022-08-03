@@ -15,7 +15,8 @@ class ProductService {
     return found
   }
 
-  async createProduct(body) {
+  async createProduct(body, userId) {
+    body.creatorId = userId
     const res = await dbContext.Product.create(body)
     return res
   }
