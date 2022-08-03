@@ -1,18 +1,14 @@
 import { dbContext } from "../db/DbContext"
+import { BadRequest } from "../utils/Errors"
 
 class DiscountService {
   async checkCouponCode(productId, discountCode) {
-    let price = 0
-    const discount = await dbContext.Discount.findOne({code: discountCode})
-    const product = await dbContext.Product.findById(productId)
-    if (discount) {
-      price = discount.newPrice
-    } else {
-      price = product.price
-    }
-    return price
+    const discount = await dbContext.Discount.findOne({code: discountCode, productId: productId})
+    if (!discount) {
+      throw new BadRequest('No Discount Code')
+    } 
+    return discount
   }
-
 }
 
 export const discountService = new DiscountService()

@@ -73,6 +73,7 @@ export class ProductController extends BaseController {
     try {
       const userId = req.userInfo.id
       const body = req.body
+      body.id = req.params.productId
       const newProduct = await productService.editProduct(body, userId)
       return res.send(newProduct)
     } catch (error) {

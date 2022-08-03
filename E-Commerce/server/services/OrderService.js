@@ -13,9 +13,13 @@ class OrderService {
     const orders = await dbContext.Order.find({productId: productId})
     let quantity = 0
     orders.forEach(order => {
-      quantity += order.quantity
+      delete order.accountId
+      delete order.deliveryAddress
+      delete order.deliveryStatus
+      delete order.received
+      delete order.account
     })
-    return quantity
+    return orders
   }
 
 }
