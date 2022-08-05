@@ -27,7 +27,7 @@ class OrderService {
     body.accountId = userId
     body.product = product
     product.quantity--
-    let existingOrder = await dbContext.Order.find({accountId: userId, productId: productId})
+    let existingOrder = await dbContext.Order.findOne({accountId: userId, productId: productId})
     if (existingOrder) {
       throw new BadRequest('Order already exists')
     }
