@@ -8,7 +8,8 @@ export const ReviewSchema = new Schema(
     accountId: {type: Object, required: true},
     rating: {type: Number, min: 0.5, max: 10, required: true},
     text: {type: String},
-    edited: {type: Boolean, required: true}
+    edited: {type: Boolean, required: true},
+    purchased: {type: Boolean, required: true}
   },
   { timestamps: true, toJSON: { virtuals: true }}
 )

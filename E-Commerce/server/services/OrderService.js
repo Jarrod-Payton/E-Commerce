@@ -4,6 +4,11 @@ import { accountService } from "./AccountService"
 import { productService } from "./ProductService"
 
 class OrderService {
+
+  async getOrderByAccountAndProduct(accountId, productId) {
+    const found = await dbContext.Order.findOne({accountId: accountId, productId: productId})
+    return found
+  }
   async getOrdersByAccount(userId) {
     await accountService.checkIfAccountExists(userId)
     const orders = await dbContext.Order.find({accountId: userId})
