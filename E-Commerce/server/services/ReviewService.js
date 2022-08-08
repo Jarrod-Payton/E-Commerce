@@ -1,6 +1,8 @@
 import { dbContext } from "../db/DbContext"
+import { notificationTypeEnum } from "../enums/NotificationTypeEnum"
 import { BadRequest, Forbidden } from "../utils/Errors"
 import { accountService } from "./AccountService"
+import { notificationService } from "./NotificationService"
 import { orderService } from "./OrderService"
 import { productService } from "./ProductService"
 
@@ -27,7 +29,7 @@ class ReviewService {
   async createReview(userId, productId, body) {
     body.accountId = userId
     body.edited = false
-    await productService.getProductById(productId)
+    const product = await productService.getProductById(productId)
     const order = await orderService.getOrderByAccountAndProduct(userId, productId)
     if (order) {
       body.purchased = true
@@ -35,9 +37,16 @@ class ReviewService {
       body.purchased = false
     }
     const newReview = await dbContext.Review.create(body)
+    const notifications = [{
+      accountId: product.creatorId,
+      type: notificationTypeEnum.reviewPlaced,
+      message: `A new review has been placed on ${product.name}`,
+      linkedId: newReview.id
+    }]
+    await notificationService.createNotifications(notifications)
     return newReview
   }
-  
+
   async editReview(userId, reviewId, body) {
     const previous = await reviewService.getReviewById(reviewId)
     if (previous.accountId !== userId) {

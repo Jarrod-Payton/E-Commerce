@@ -1,6 +1,9 @@
 import { dbContext } from "../db/DbContext"
+import { deliveryStatus } from "../enums/DeliveryStatusEnum"
+import { notificationTypeEnum } from "../enums/NotificationTypeEnum"
 import { BadRequest, Forbidden } from "../utils/Errors"
 import { accountService } from "./AccountService"
+import { notificationService } from "./NotificationService"
 import { productService } from "./ProductService"
 
 class OrderService {
@@ -31,12 +34,26 @@ class OrderService {
     body.productId = productId
     body.accountId = userId
     body.product = product
+    body.deliveryStatus = deliveryStatus.notShipped
     product.quantity--
     let existingOrder = await dbContext.Order.findOne({accountId: userId, productId: productId})
     if (existingOrder) {
       throw new BadRequest('Order already exists')
     }
     const newOrder = await dbContext.Order.create(body)
+    const notifications = [{
+      accountId: product.creatorId,
+      type: notificationTypeEnum.newSale,
+      message: `You sold ${body.quantity} ${product.name}`,
+      linkedId: productId
+    },
+    {
+      accountId: userId,
+      type: notificationTypeEnum.orderUpdate,
+      message: `Confirmed your order for ${body.quantity} ${product.name}`,
+      linkedId: newOrder.id
+    }]
+    await notificationService.createNotifications(notifications)
     return newOrder
   }
 
@@ -50,6 +67,13 @@ class OrderService {
     body.product = existingOrder.product
     await dbContext.Order.findByIdAndUpdate(orderId, body)
     const updated = await dbContext.Order.findById(orderId)
+    const notifications = [{
+      accountId: existingOrder.accountId,
+      type: notificationTypeEnum.orderUpdate,
+      message: `Your order has been updated`,
+      linkedId: updated.id
+    }]
+    await notificationService.createNotifications(notifications)
     return updated
   }
 
@@ -62,7 +86,15 @@ class OrderService {
       throw new Forbidden('Too late amigo')
     }
     existingOrder.deliveryStatus = 'Cancelled'
-    return orderService.updateOrder(userId, orderId, existingOrder)
+    const updated = await orderService.updateOrder(userId, orderId, existingOrder)
+    const notifications = [{
+      accountId: existingOrder.accountId,
+      type: notificationTypeEnum.orderUpdate,
+      message: `Your order has been cancelled`,
+      linkedId: updated.id
+    }]
+    await notificationService.createNotifications(notifications)
+    return updated
   }
 
   async getAmountOfProductSold(productId) {
