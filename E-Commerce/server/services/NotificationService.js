@@ -21,10 +21,12 @@ class NotificationService {
     const updated = await this.getAllNotificationsByAccountId(accountId)
     return updated
   }
-  async createNotification(notification, recepientId) {
-    notification.accountId = recepientId
-    notification.viewed = false
-    await dbContext.Notification.create(notification)
+  async createNotifications(notifications) {
+    await notifications.forEach(notification => {
+      notification.viewed = false
+      notification.deleted = false
+      dbContext.Notification.create(notification)
+    })
   }
 
   async viewedNotification(notificationId, accountId) {

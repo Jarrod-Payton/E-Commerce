@@ -1,5 +1,8 @@
 import { dbContext } from "../db/DbContext"
+import { notificationTypeEnum } from "../enums/NotificationTypeEnum"
 import { BadRequest, Forbidden } from '../utils/Errors'
+import { followerService} from './FollowerService'
+import { notificationService } from "./NotificationService"
 
 class ProductService {
   async getAllProducts(query = {}) {
@@ -18,6 +21,18 @@ class ProductService {
   async createProduct(body, userId) {
     body.creatorId = userId
     const res = await dbContext.Product.create(body)
+    const followers = await followerService.getFollowersByAccount(userId)
+    let notifications = []
+    followers.forEach(follower => {
+      let notification = {
+        accountId: follower.accountId,
+        type: notificationTypeEnum.newProduct,
+        message: `${follower.followed.name} has put up a new product "${body.name}" check it out!`,
+        linkedId: res.id
+      }
+      notifications.push(notification)
+    })
+    await notificationService.createNotifications(notifications)
     return res
   }
 

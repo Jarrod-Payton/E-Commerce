@@ -6,7 +6,9 @@ export const DiscountSchema = new Schema(
   {
     code: {type: String, required: true},
     productId: {type: Object, required: true},
-    newPrice: {type: Number, required: true}
+    newPrice: {type: Number, required: true},
+    quantity: {type: Number, required: true},
+    default: {type: Boolean, required: true}
   },
   {timestamps: true, toJSON: {virtuals: true}}
 )
