@@ -5,6 +5,7 @@
   <main>
     <router-view />
   </main>
+  <Profile-Edit-Offcanvas />
 </template>
 
 <script>
