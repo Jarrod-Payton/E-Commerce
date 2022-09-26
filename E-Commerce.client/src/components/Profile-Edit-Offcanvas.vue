@@ -1,5 +1,5 @@
 <template>
-  <div class="offcanvas offcanvas-end bg-secondary" id="EditProfileOffCanvas">
+  <div class="offcanvas offcanvas-end bg-primary" id="EditProfileOffCanvas">
     <div class="offcanvas-header">
       <h5 id="offcanvasRightLabel">Profile Details</h5>
       <button
@@ -89,7 +89,7 @@
             <div class="col-12">
               <div class="bottom">
                 <router-link :to="{ name: 'Account' }">
-                  <button class="btn btn-info mb-2 w-100">Account Page</button>
+                  <button class="btn btn-primary mb-2 w-100">Account Page</button>
                 </router-link>
                 <button class="btn btn-danger w-100" @click="logout()">
                   Logout
