@@ -78,7 +78,7 @@
                   <div class="col-12">
                     <button
                       type="submit"
-                      class="btn w-100 btn-success mt-3 submit"
+                      class="btn w-100 btn-success mt-3 submit text-black"
                     >
                       Submit
                     </button>
