@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-3">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-secondary px-3">
     <router-link
       class="navbar-brand d-flex"
       title="Route to the Home Page"
@@ -20,25 +20,14 @@
     <div class="collapse navbar-collapse" id="navbarText"></div>
     <span class="navbar-text pe-3">
       <button
-        class="
-          btn btn-outline-warning
-          text-shadow
-          selectable
-          text-success
-          lighten-30
-          text-uppercase
-          my-2 my-lg-0
-        "
+        class="btn btn-outline-warning text-shadow selectable text-success lighten-30 text-uppercase my-2 my-lg-0"
         @click="login"
         v-if="!user.isAuthenticated"
       >
         Login
       </button>
       <div class="dropdown my-2 my-lg-0 dropstart" v-else>
-        <div
-          class="selectable rounded elevation-2"
-          @click="editProfile"
-        >
+        <div class="selectable rounded elevation-2" @click="editProfile">
           <img
             :src="account.picture"
             alt="user photo"

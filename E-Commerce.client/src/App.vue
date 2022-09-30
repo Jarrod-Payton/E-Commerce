@@ -6,6 +6,7 @@
     <router-view />
   </main>
   <Profile-Edit-Offcanvas />
+  <CreateModal />
 </template>
 
 <script>
