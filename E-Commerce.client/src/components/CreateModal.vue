@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Modal title</h5>
+          <h5 class="modal-title">Create a Posting</h5>
           <button
             type="button"
             class="btn-close"
@@ -17,9 +17,11 @@
             class="btn btn-secondary"
             data-bs-dismiss="modal"
           >
-            Close
+            Cancel
           </button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-primary text-white">
+            Create
+          </button>
         </div>
       </div>
     </div>

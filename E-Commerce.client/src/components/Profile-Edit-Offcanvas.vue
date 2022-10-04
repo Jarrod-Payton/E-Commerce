@@ -7,6 +7,7 @@
         class="btn-close text-reset"
         data-bs-dismiss="offcanvas"
         aria-label="Close"
+        title="Close"
       ></button>
     </div>
     <div class="offcanvas-body">
@@ -17,7 +18,11 @@
               <div class="row">
                 <div class="col-12">
                   <div class="d-flex justify-content-end align-items-center">
-                    <div class="m-1 edit action" @click="editToggle()">
+                    <div
+                      class="m-1 edit action"
+                      @click="editToggle()"
+                      title="Edit Profile"
+                    >
                       <i class="mdi mdi-pencil" />
                       Edit Profile
                     </div>
@@ -27,7 +32,7 @@
                   <div class="img">
                     <img
                       :src="account.picture"
-                      alt=""
+                      alt="Profile Picture"
                       class="elevation-3 m-3 profile-pic"
                     />
                   </div>
@@ -78,7 +83,8 @@
                   <div class="col-12">
                     <button
                       type="submit"
-                      class="btn w-100 btn-success mt-3 submit text-black"
+                      class="btn w-100 btn-success mt-3 submit text-white"
+                      title="Update Profile"
                     >
                       Submit
                     </button>
@@ -89,9 +95,18 @@
             <div class="col-12">
               <div class="bottom">
                 <router-link :to="{ name: 'Account' }">
-                  <button class="btn btn-primary mb-2 w-100">Account Page</button>
+                  <button
+                    class="btn btn-primary mb-2 w-100 text-white"
+                    title="Account Page"
+                  >
+                    Account Page
+                  </button>
                 </router-link>
-                <button class="btn btn-danger w-100" @click="logout()">
+                <button
+                  class="btn btn-danger w-100"
+                  @click="logout()"
+                  title="Logout"
+                >
                   Logout
                 </button>
               </div>
