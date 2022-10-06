@@ -12,7 +12,18 @@
             ></button>
           </div>
           <div class="modal-body">
-            <input type="text" v-model="form.name" />
+            <div class="row">
+              <div class="col-md-6 col-sm-12">
+                <input type="text" class="h-100 w-100" v-model="form.name" />
+              </div>
+              <div class="col-md-6 col-sm-12">
+                <textarea
+                  type="text"
+                  class="h-100 w-100"
+                  v-model="form.description"
+                />
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
             <button
